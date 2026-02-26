@@ -31,8 +31,8 @@ class Book(models.Model):
         return self.title
 ```
 ### 5. Adım
-books/serializers.py dosyasını oluşturup içine gerekli kodları yazıyorum. Burada serializer kullanarak veritabanındaki verileri JSON formatına dönüştürüyoruz.
-Ayrıca ChoiceField ile kitap türlerini kısıtlıyoruz ve validate fonksiyonu ile bir yayınevinin 5 kitaptan  fazla eklememesini engelleyen bir kod yazıyoruz.
+books/serializers.py dosyasını oluşturup içine gerekli kodları yazıyorum. Burada serializer kullanarak veritabanındaki verileri JSON formatına dönüştürüyorum.
+Ayrıca ChoiceField ile kitap türlerini kısıtlıyorum ve validate fonksiyonu ile bir yayınevinin 5 kitaptan  fazla eklememesini engelleyen bir kod yazıyorum.
 ```
 from rest_framework import serializers
 from .models import Book
@@ -63,7 +63,7 @@ class BookSerializer(serializers.ModelSerializer):
         return data
 ```
 ### 6. Adım
-Sonrasıda books/views.py dosyasına CRUD işlemlerini tanımlayan ModelViewSet yapısını ekliyoruz
+Sonrasıda books/views.py dosyasına CRUD işlemlerini tanımlayan ModelViewSet yapısını ekliyorum
 ```
 from rest_framework import viewsets
 from .models import Book
@@ -74,7 +74,7 @@ class BookViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
 ```
 ### 7. Adım
-library_api/urls.py üzerinden internet tarayıcısından veya postmanden hangi adrese gidince apinin çalışacağını belirliyoruz 
+library_api/urls.py üzerinden internet tarayıcısından veya postmanden hangi adrese gidince apinin çalışacağını belirliyorum 
 ```
 from django.contrib import admin
 from django.urls import path, include
@@ -97,3 +97,11 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 Sonrasında .gitignore adında bir dosya oluşturup içine internete yüklemek istemediğimiz dosyaları yazıyoruz
+```
+env/
+.idea/
+db.sqlite3
+__pycache__/
+```
+### 9. Adım
+Postman üzerinden bir koleksiyon oluşturup tüm CRUD (Listeleme, Ekleme, Düzenleme, Silme) isteklerini test ettim. Hazırladığım bu Postman Collection'ını da repoya ekledim.
