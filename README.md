@@ -11,13 +11,13 @@ pip install django djangorestframework
 
  
 ### 2. Adım
-Django iskeletini oluşturmak için ve uygulamayı(app) oluşturmak için bu komutları sırayla giriyorum
+Django iskeletini oluşturmak için ve uygulamayı(app) oluşturmak için bu komutları sırayla yazıyorum
 ``` 
 django-admin startproject library_api .
 python manage.py startapp books
 ```
 ### 3. Adım
-Bunları yaptıktan sonra library_api/setting.py'nin içindeki INSTALLED_APPS listesine 'rest_framework' ve 'books' ekledim
+Bunları yazdıktan sonra library_api/setting.py'nin içindeki INSTALLED_APPS listesine 'rest_framework' ve 'books' ekledim
 ### 4. Adım
 Kitapların başlığı, türü, sayfa sayısı ve yayınevi gibi özelliklerini tanımlayan bir veritabanı şeması oluşturmak için books/models.py içine şu kodları yazarak veritabanı tablomu hazırlıyorum 
 ```
@@ -31,7 +31,7 @@ class Book(models.Model):
         return self.title
 ```
 ### 5. Adım
-books/serializers.py dosyasını oluşturup içine gerekli kodları yazıyorum. Burada serializer kullanarak veritabanındaki verileri JSON formatına dönüştürüyorum.
+books/serializers.py dosyasını oluşturup içine gerekli kodları yazıyorum. Serializer kullanarak veritabanındaki verileri JSON formatına dönüştürüyorum.
 Ayrıca ChoiceField ile kitap türlerini kısıtlıyorum ve validate fonksiyonu ile bir yayınevinin 5 kitaptan  fazla eklememesini engelleyen bir kod yazıyorum.
 ```
 from rest_framework import serializers
