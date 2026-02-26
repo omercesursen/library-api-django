@@ -11,16 +11,18 @@ pip install django djangorestframework
 
  
 ### 2. Adım
-Django iskeletini oluşturmak için ve uygulamayı(app) oluşturmak için bu komutları sırayla yazıyorum
+Django iskeletini ve uygulamayı(app) oluşturmak için bu komutları sırayla yazdım
 ``` 
 django-admin startproject library_api .
 python manage.py startapp books
 ```
 ### 3. Adım
-Bunları yazdıktan sonra library_api/setting.py'nin içindeki INSTALLED_APPS listesine 'rest_framework' ve 'books' ekledim
+Bunları yazdıktan sonra library_api/settings.py'nin içindeki INSTALLED_APPS listesine 'rest_framework' ve 'books' ekledim
 ### 4. Adım
-Kitapların başlığı, türü, sayfa sayısı ve yayınevi gibi özelliklerini tanımlayan bir veritabanı şeması oluşturmak için books/models.py içine şu kodları yazarak veritabanı tablomu hazırlıyorum 
+Kitapların başlığı, türü, sayfa sayısı ve yayınevi gibi özelliklerini tanımlayan bir veritabanı şeması oluşturmak için books/models.py içine şu kodları yazarak veritabanı tablomu hazırladım 
 ```
+from django.db import models
+
 class Book(models.Model):
     title = models.CharField(max_length=255, unique=True)
     genre = models.CharField(max_length=100)
@@ -31,8 +33,8 @@ class Book(models.Model):
         return self.title
 ```
 ### 5. Adım
-books/serializers.py dosyasını oluşturup içine gerekli kodları yazıyorum. Serializer kullanarak veritabanındaki verileri JSON formatına dönüştürüyorum.
-Ayrıca ChoiceField ile kitap türlerini kısıtlıyorum ve validate fonksiyonu ile bir yayınevinin 5 kitaptan  fazla eklememesini engelleyen bir kod yazıyorum.
+books/serializers.py dosyasını oluşturup içine gerekli kodları yazdım. Serializer kullanarak veritabanındaki verileri JSON formatına dönüştürdüm.
+Ayrıca ChoiceField ile kitap türlerini kısıtladım ve validate fonksiyonu ile bir yayınevinin 5 kitaptan  fazla eklememesini engelleyen bir kod yazdım.
 ```
 from rest_framework import serializers
 from .models import Book
@@ -63,7 +65,7 @@ class BookSerializer(serializers.ModelSerializer):
         return data
 ```
 ### 6. Adım
-Sonrasıda books/views.py dosyasına CRUD işlemlerini tanımlayan ModelViewSet yapısını ekliyorum
+Sonrasında books/views.py dosyasına CRUD işlemlerini tanımlayan ModelViewSet yapısını ekledim
 ```
 from rest_framework import viewsets
 from .models import Book
@@ -74,7 +76,7 @@ class BookViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
 ```
 ### 7. Adım
-library_api/urls.py üzerinden internet tarayıcısından veya postmanden hangi adrese gidince apinin çalışacağını belirliyorum 
+library_api/urls.py üzerinden internet tarayıcısından veya Postman'den hangi adrese gidince API'nin çalışacağını belirledim 
 ```
 from django.contrib import admin
 from django.urls import path, include
@@ -90,13 +92,13 @@ urlpatterns = [
 ]
 ```
 ### 8. Adım
-Yazdığımız verilerin veritabanında birer tabloya dönüşebilmesi için bu 2 komudu çalıştırıyorum
+Yazdığım verilerin veritabanında birer tabloya dönüşebilmesi için bu 2 komutu çalıştırdım
 ```
 python manage.py makemigrations
 
 python manage.py migrate
 ```
-Sonrasında .gitignore adında bir dosya oluşturup içine internete yüklemek istemediğimiz dosyaları yazıyoruz
+Sonrasında .gitignore adında bir dosya oluşturup içine internete yüklemek istemediğim dosyaları yazdım
 ```
 env/
 .idea/
@@ -104,4 +106,4 @@ db.sqlite3
 __pycache__/
 ```
 ### 9. Adım
-Postman üzerinden bir koleksiyon oluşturup tüm CRUD (Listeleme, Ekleme, Düzenleme, Silme) isteklerini test ettim. Hazırladığım bu Postman Collection'ını da repoya ekledim.
+Postman üzerinden bir koleksiyon oluşturup tüm CRUD (Listeleme, Ekleme, Tekil Getirme, Düzenleme, Silme) isteklerini test ettim. Hazırladığım bu Postman Collection'ını da repoya ekledim.
