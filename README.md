@@ -34,7 +34,7 @@ class Book(models.Model):
 ```
 ### 5. Adım
 books/serializers.py dosyasını oluşturup içine gerekli kodları yazdım. Serializer kullanarak veritabanındaki verileri JSON formatına dönüştürdüm.
-Ayrıca ChoiceField ile kitap türlerini kısıtladım ve validate fonksiyonu ile bir yayınevinin 5 kitaptan  fazla eklememesini engelleyen bir kod yazdım.
+Ayrıca ChoiceField ile kitap türlerini kısıtladım ve validate fonksiyonu ile bir yayınevinin 5 kitaptan  fazla eklemesini engelleyen bir kod yazdım.
 ```
 from rest_framework import serializers
 from .models import Book
