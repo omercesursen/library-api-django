@@ -1,3 +1,4 @@
+import os
 """
 Django settings for library_api project.
 
@@ -40,6 +41,10 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'books',
+
+    'django_celery_beat',
+
+
 ]
 
 MIDDLEWARE = [
@@ -77,8 +82,12 @@ WSGI_APPLICATION = 'library_api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME', 'library_db'),
+        'USER': os.environ.get('DB_USER', 'library_user'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'library_password'),
+        'HOST': os.environ.get('DB_HOST', 'db'), # docker-compose'daki servis adı
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 
@@ -118,3 +127,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+#
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+CELERY_BROKER_URL = "amqp://guest:guest@rabbitmq:5672//"
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'

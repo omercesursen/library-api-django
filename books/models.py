@@ -21,5 +21,8 @@ class Book(models.Model):
 
     publisher = models.CharField(max_length=255)
 
+
+    read_count = models.IntegerField(default=0) #
+
     def __str__(self):
         return self.title
