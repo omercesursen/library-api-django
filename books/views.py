@@ -84,7 +84,7 @@ class BookViewSet(viewsets.ModelViewSet):
 class BookElasticSearchView(APIView):
     def get(self, request):
         query = request.query_params.get('query', '')
-        fields_param = request.query_params.get('fields', 'title,genre')
+        fields_param = request.query_params.get('fields', 'title,genre,page_count,publisher')
 
         if not query:
             return Response({"error": "Lütfen aranacak kelimeyi 'query' parametresi ile gönderin."}, status=status.HTTP_400_BAD_REQUEST)
