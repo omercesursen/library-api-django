@@ -4,9 +4,11 @@ from rest_framework.response import Response
 from rest_framework import viewsets, filters
 from rest_framework import status
 from rest_framework.decorators import action
+from elasticsearch_dsl import Q
 from .models import Author, Book
 from .serializers import AuthorSerializer, BookSerializer, BookUpdateSerializer
 from .tasks import increase_book_count
+from .documents import BookDocument
 
 
 
@@ -78,3 +80,34 @@ class BookViewSet(viewsets.ModelViewSet):
             serializer = BookSerializer(random_book)
             return Response(serializer.data)
         return Response({"error": "No books found"}, status=status.HTTP_400_BAD_REQUEST)
+
+class BookElasticSearchView(APIView):
+    def get(self, request):
+        query = request.query_params.get('query', '')
+        fields_param = request.query_params.get('fields', 'title,genre')
+
+        if not query:
+            return Response({"error": "Lütfen aranacak kelimeyi 'query' parametresi ile gönderin."}, status=status.HTTP_400_BAD_REQUEST)
+
+        search_fields = fields_param.split(',')
+
+        es_query = Q("multi_match", query=query, fields=search_fields, fuzziness="AUTO")
+
+        search_result = BookDocument.search().query(es_query)
+
+        response_data = []
+        for hit in search_result:
+            response_data.append({
+                "id": hit.meta.id,
+                "title": hit.title,
+                "genre": hit.genre,
+                "page_count": hit.page_count,
+                "publisher": hit.publisher
+            })
+
+        return Response({
+            "veri_kaynagi": "Elasticsearch",
+            "bulunan_sonuc_sayisi": len(response_data),
+            "aranan_alanlar": search_fields,
+            "sonuclar": response_data
+        })

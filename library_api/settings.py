@@ -44,6 +44,8 @@ INSTALLED_APPS = [
 
     'django_celery_beat',
 
+    'django_elasticsearch_dsl',
+
 
 ]
 
@@ -136,6 +138,12 @@ CACHES = {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
+}
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'elasticsearch:9200'
+    },
 }
 
 CELERY_BROKER_URL = "amqp://guest:guest@rabbitmq:5672//"
